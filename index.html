@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trazabilidad & Control Paramétrico por Semáforos</title>
+    <title>Trazabilidad, Semáforos & Registro de Paradas</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -21,8 +21,8 @@
     <!-- Header -->
     <header class="mb-6 border-b border-slate-700 pb-4 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
         <div>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-sky-400">Control Térmico & Matriz de Semáforos</h1>
-            <p class="text-slate-400 text-xs md:text-sm">Monitoreo Paramétrico de Rangos Mínimos/Máximos y Balance Energético</p>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-sky-400">Control Integral de Planta & Tiempos Improductivos</h1>
+            <p class="text-slate-400 text-xs md:text-sm">Telemetría Térmica, Semáforos de Desvíos y Gestión de Paradas de Secado/Tamizado</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
             <label for="granulometriaSelect" class="text-xs md:text-sm font-semibold text-slate-300">Granulometría Objetiva:</label>
@@ -44,17 +44,16 @@
     <!-- Grid Principal -->
     <main class="grid grid-cols-1 xl:grid-cols-4 gap-6">
 
-        <!-- Columna 1, 2 y 3: Parametrización y Trazabilidad -->
+        <!-- Columna 1, 2 y 3: Parametrización y Control -->
         <section class="xl:col-span-3 space-y-6">
 
-            <!-- FASE 1: Acopio e Ingreso a Horno -->
+            <!-- FASE 1: Acopio e Ingreso -->
             <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 md:p-5 shadow-md">
                 <h2 class="text-md font-bold text-sky-400 uppercase tracking-wide mb-4 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
                     Etapa 1: Materia Prima e Ingreso a Planta
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Humedad Acopio -->
                     <div id="cardHumedadAcopio" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Humedad Acopio (Stock)</span>
@@ -68,7 +67,6 @@
                         <p id="rangeHumedadAcopio" class="text-[10px] text-slate-500 mt-1">Rango: 3.0% - 9.0%</p>
                     </div>
 
-                    <!-- Humedad Ingreso -->
                     <div id="cardHumedadIngreso" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Humedad Alimentación Horno</span>
@@ -82,10 +80,9 @@
                         <p id="rangeHumedadIngreso" class="text-[10px] text-slate-500 mt-1">Rango: 3.0% - 8.0%</p>
                     </div>
 
-                    <!-- Temp Ingreso -->
                     <div id="cardTempIngreso" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
-                            <span>Temp. Inicial Material Ingreso</span>
+                            <span>Temp. Inicial Material</span>
                             <span id="badgeTempIngreso" class="px-2 py-0.5 rounded text-[10px] font-bold">--</span>
                         </div>
                         <div class="flex items-baseline gap-2 my-1">
@@ -98,14 +95,13 @@
                 </div>
             </div>
 
-            <!-- FASE 2: Operación Mecánica, Combustión y Tiro de Aire del Horno -->
+            <!-- FASE 2: Horno, Llama y Tiro -->
             <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 md:p-5 shadow-md">
                 <h2 class="text-md font-bold text-amber-400 uppercase tracking-wide mb-4 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                    Etapa 2: Dinámica Térmica, Quemador y Aire Circulante
+                    Etapa 2: Balance Térmico, Llama y Aire Circulante
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <!-- RPM Cinta -->
                     <div id="cardRpmCinta" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Alimentación (RPM Cinta)</span>
@@ -119,7 +115,6 @@
                         <p id="rangeRpmCinta" class="text-[10px] text-slate-500 mt-1">Rango: 25 - 65 RPM</p>
                     </div>
 
-                    <!-- RPM Tambor Horno -->
                     <div id="cardRpmHorno" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Velocidad Horno (RPM Tambor)</span>
@@ -133,10 +128,9 @@
                         <p id="rangeRpmHorno" class="text-[10px] text-slate-500 mt-1">Límite Malla: --</p>
                     </div>
 
-                    <!-- Temp Gases Quemador -->
                     <div id="cardTempGases" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
-                            <span>Temp. Gases / Llama</span>
+                            <span>Temp. Gases / Quemador</span>
                             <span id="badgeTempGases" class="px-2 py-0.5 rounded text-[10px] font-bold">--</span>
                         </div>
                         <div class="flex items-baseline gap-2 my-1">
@@ -148,12 +142,10 @@
                     </div>
                 </div>
 
-                <!-- Segunda fila etapa 2: Llama, Aire y Temp Salida -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Intensidad de Llama (Potencia) -->
                     <div id="cardIntensidadLlama" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
-                            <span>Intensidad / Potencia Llama</span>
+                            <span>Intensidad Llama (Potencia)</span>
                             <span id="badgeIntensidadLlama" class="px-2 py-0.5 rounded text-[10px] font-bold">--</span>
                         </div>
                         <div class="flex items-baseline gap-2 my-1">
@@ -164,7 +156,6 @@
                         <p id="rangeIntensidadLlama" class="text-[10px] text-slate-500 mt-1">Rango: 40% - 85%</p>
                     </div>
 
-                    <!-- Flujo / Tiro de Aire Circulante -->
                     <div id="cardFlujoAire" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Tiro de Aire (Aspirador Ciclón)</span>
@@ -178,10 +169,9 @@
                         <p id="rangeFlujoAire" class="text-[10px] text-slate-500 mt-1">Rango: 3000 - 5500 m³/h</p>
                     </div>
 
-                    <!-- Temp Material Salida Horno -->
                     <div id="cardTempSalida" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
-                            <span>Temp. Material A Salida</span>
+                            <span>Temp. Material Salida Horno</span>
                             <span id="badgeTempSalida" class="px-2 py-0.5 rounded text-[10px] font-bold">--</span>
                         </div>
                         <div class="flex items-baseline gap-2 my-1">
@@ -194,14 +184,13 @@
                 </div>
             </div>
 
-            <!-- FASE 3: Salida de Horno y Tamizado -->
+            <!-- FASE 3: Tamizado -->
             <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 md:p-5 shadow-md">
                 <h2 class="text-md font-bold text-emerald-400 uppercase tracking-wide mb-4 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
                     Etapa 3: Humedad Final y Dinámica de Tamizado
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Humedad Salida -->
                     <div id="cardHumedadSalida" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Humedad Seca Final</span>
@@ -215,7 +204,6 @@
                         <p id="rangeHumedadSalida" class="text-[10px] text-slate-500 mt-1">Límite Malla: --</p>
                     </div>
 
-                    <!-- Amplitud Zaranda -->
                     <div id="cardAmplitud" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Amplitud Zaranda ($S_{p-p}$)</span>
@@ -229,7 +217,6 @@
                         <p id="rangeAmplitud" class="text-[10px] text-slate-500 mt-1">Límite Malla: --</p>
                     </div>
 
-                    <!-- RPM Zaranda -->
                     <div id="cardRpmZaranda" class="bg-slate-900/60 p-3.5 rounded-lg border border-slate-700 transition-colors">
                         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
                             <span>Frecuencia Zaranda</span>
@@ -245,36 +232,32 @@
                 </div>
             </div>
 
-            <!-- FASE 4: MICROSITIO BASE DE DATOS Y EXPORTACIÓN EXCEL -->
+            <!-- MICROSITIO 1: TELEMETRÍA Y HISTÓRICO PARÁMETROS -->
             <div class="bg-slate-800 border border-sky-500/40 rounded-xl p-4 md:p-5 shadow-lg space-y-4">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-700 pb-3">
                     <div>
                         <h2 class="text-md font-bold text-sky-300 uppercase tracking-wide flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
-                            Micrositio: Base de Datos & Histórico para Ratios
+                            Micrositio 1: Telemetría de Proceso (Auto 30/60 min)
                         </h2>
-                        <p class="text-xs text-slate-400">Captura automática de snapshots térmicos y mecánicos en LocalStorage.</p>
+                        <p class="text-xs text-slate-400">Captura snapshots automáticos para análisis de ratios térmicos.</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <select id="intervaloAuto" onchange="configurarTimerAuto()" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded p-2">
-                            <option value="0">Autograbado: Desactivado</option>
-                            <option value="30" selected>Autograbado: Cada 30 min</option>
-                            <option value="60">Autograbado: Cada 60 min</option>
+                            <option value="0">Autograbado: Off</option>
+                            <option value="30" selected>Autograbado: C/ 30 min</option>
+                            <option value="60">Autograbado: C/ 60 min</option>
                         </select>
                         <button onclick="guardarLecturaManual()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3 py-2 rounded transition">
-                            📷 Guardar Lectura
+                            📷 Guardar Foto
                         </button>
-                        <button onclick="exportarExcelCSV()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded transition flex items-center gap-1">
-                            📊 Exportar a Excel
-                        </button>
-                        <button onclick="limpiarBaseDatos()" class="bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs px-2.5 py-2 rounded transition">
-                            🗑️
+                        <button onclick="exportarExcelTelemetria()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded transition">
+                            📊 Excel Telemetría
                         </button>
                     </div>
                 </div>
 
-                <!-- Tabla de Histórico -->
-                <div class="overflow-x-auto max-h-56">
+                <div class="overflow-x-auto max-h-48">
                     <table class="w-full text-left text-[11px] text-slate-300">
                         <thead class="bg-slate-900 sticky top-0 text-slate-400 uppercase">
                             <tr>
@@ -286,11 +269,76 @@
                                 <th class="p-2">Aire (m³/h)</th>
                                 <th class="p-2">Temp.Gases</th>
                                 <th class="p-2">Temp.Mat</th>
-                                <th class="p-2">Amp.Zaranda</th>
                                 <th class="p-2">Estado</th>
                             </tr>
                         </thead>
                         <tbody id="tablaHistoricoBody" class="divide-y divide-slate-700/50 font-mono">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MICROSITIO 2: REGISTRO DE PARADAS E INEFINCIENCIAS EN PLANTA -->
+            <div class="bg-slate-800 border border-rose-500/40 rounded-xl p-4 md:p-5 shadow-lg space-y-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-700 pb-3">
+                    <div>
+                        <h2 class="text-md font-bold text-rose-400 uppercase tracking-wide flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+                            Micrositio 2: Registro de Paradas de Planta & Horas Inproductivas
+                        </h2>
+                        <p class="text-xs text-slate-400">Captura causa raíz, hora inicio, duración y reanudación para cálculo de Disponibilidad/OEE.</p>
+                    </div>
+                    <button onclick="exportarExcelParadas()" class="bg-rose-700 hover:bg-rose-600 text-white font-bold text-xs px-3 py-2 rounded transition">
+                        📊 Exportar Paradas a Excel
+                    </button>
+                </div>
+
+                <!-- Formulario de Ingreso de Parada -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 bg-slate-900/70 p-3 rounded-lg border border-slate-700 text-xs">
+                    <div>
+                        <label class="block text-slate-400 mb-1">Inicio de Parada</label>
+                        <input type="datetime-local" id="paradaInicio" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Duración (Minutos)</label>
+                        <input type="number" id="paradaDuracion" placeholder="ej. 45" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Causa Raíz / Motivo</label>
+                        <select id="paradaCausa" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-slate-200">
+                            <option value="Mecánica: Atasco en Zaranda/Ciego">Atasco en Zaranda / Ciego Malla</option>
+                            <option value="Térmica: Humedad Excesiva en Acopio">Humedad Excesiva Stock Entrada</option>
+                            <option value="Mecánica: Fallo Cinta Alimentación">Fallo Cinta / Reductor Alimentación</option>
+                            <option value="Térmica: Apagado Quemador / Gas">Fallo Quemador / Presión Gas</option>
+                            <option value="Operativa: Falta de Materia Prima">Falta Carga de Camión / Acopio</option>
+                            <option value="Mantenimiento Programado">Mantenimiento Preventivo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Reanudación Operación</label>
+                        <input type="text" id="paradaAccion" placeholder="ej. Limpieza de tela y reinicio" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-slate-200">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="registrarParada()" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-1.5 rounded transition">
+                            🚨 Registrar Parada
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Paradas -->
+                <div class="overflow-x-auto max-h-48">
+                    <table class="w-full text-left text-[11px] text-slate-300">
+                        <thead class="bg-slate-900 sticky top-0 text-slate-400 uppercase">
+                            <tr>
+                                <th class="p-2">Hora Inicio</th>
+                                <th class="p-2">Duración</th>
+                                <th class="p-2">Causa Raíz</th>
+                                <th class="p-2">Acción de Reanudación</th>
+                                <th class="p-2">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaParadasBody" class="divide-y divide-slate-700/50 font-mono">
                             <!-- Filas dinámicas -->
                         </tbody>
                     </table>
@@ -303,14 +351,14 @@
         <section class="space-y-6">
             <h2 class="text-md font-bold text-slate-200 flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-sky-500"></span>
-                Semaforización & Diagnóstico
+                Semaforización & Ratios
             </h2>
 
             <!-- Card Estado Global -->
             <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-xl space-y-4">
                 <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase">Diagnóstico de Planta</h3>
                 <div id="statusGlobalCard" class="p-4 rounded-lg bg-emerald-950 border border-emerald-600 text-emerald-200 transition-colors">
-                    <p id="statusGlobalText" class="font-bold text-md">PROCESO EN PARÁMETROS</p>
+                    <p id="statusGlobalText" class="font-bold text-md">PROCESO EN PARÁMETROS ÓPTIMOS</p>
                     <p id="statusGlobalSub" class="text-xs mt-1 text-emerald-300/80">Transferencia térmica sincronizada.</p>
                 </div>
 
@@ -321,8 +369,8 @@
                         <strong id="metricEvaporacion" class="text-sky-400 text-sm">6.72 %</strong>
                     </div>
                     <div class="bg-slate-900/60 p-2 rounded border border-slate-700">
-                        <span class="block text-slate-400">Ratio Aire/Llama</span>
-                        <strong id="metricAireLlama" class="text-amber-400 text-sm">64.6</strong>
+                        <span class="block text-slate-400">Horas Paradas (Hoy)</span>
+                        <strong id="metricHorasParada" class="text-rose-400 text-sm">0.0 hs</strong>
                     </div>
                 </div>
 
@@ -332,7 +380,7 @@
                 <ul id="listaRecomendaciones" class="space-y-2 text-xs text-slate-300">
                     <li class="flex items-start gap-2">
                         <span class="text-emerald-400">✓</span>
-                        <span>Parámetros operativos alineados con el estándar técnico.</span>
+                        <span>Variables dentro de rangos normales. Sin pérdidas térmicas.</span>
                     </li>
                 </ul>
             </div>
@@ -355,7 +403,9 @@
             "3-6":     { hMax: 0.20, tMin: 55,  tMax: 70,  ampMin: 7.0, ampMax: 9.0, rpmZMin: 800,  rpmZMax: 1000, tGasesMin: 600, tGasesMax: 700, rpmHMin: 3.0, rpmHMax: 4.0 }
         };
 
-        let dbHistorico = JSON.parse(localStorage.getItem('db_secado_tamizado')) || [];
+        // Bases de datos en LocalStorage
+        let dbTelemetria = JSON.parse(localStorage.getItem('db_secado_telemetria')) || [];
+        let dbParadas = JSON.parse(localStorage.getItem('db_secado_paradas')) || [];
         let timerAutoSave = null;
 
         function actualizarValoresFormulario() {
@@ -369,7 +419,6 @@
             document.getElementById('inputAmplitud').value = ((p.ampMin + p.ampMax)/2).toFixed(1);
             document.getElementById('inputRpmZaranda').value = Math.round((p.rpmZMin + p.rpmZMax)/2);
 
-            // Actualizar etiquetas de rangos esperados
             document.getElementById('rangeRpmHorno').innerText = `Límite Malla: ${p.rpmHMin} - ${p.rpmHMax} RPM`;
             document.getElementById('rangeTempGases').innerText = `Límite Malla: ${p.tGasesMin} - ${p.tGasesMax} °C`;
             document.getElementById('rangeTempSalida').innerText = `Límite Malla: ${p.tMin} - ${p.tMax} °C`;
@@ -385,23 +434,20 @@
             const badge = document.getElementById(`badge${idElemento}`);
 
             if (valor >= minOk && valor <= maxOk) {
-                // Verde - Óptimo
                 card.className = "bg-slate-900/60 p-3.5 rounded-lg border card-ok transition-colors";
                 badge.innerText = "ÓPTIMO";
                 badge.className = "px-2 py-0.5 rounded text-[10px] font-bold badge-ok";
-                return 0; // 0 desvíos
+                return 0;
             } else if ((minWarn !== null && valor >= minWarn && valor < minOk) || (maxWarn !== null && valor > maxOk && valor <= maxWarn)) {
-                // Amarillo - Advertencia
                 card.className = "bg-slate-900/60 p-3.5 rounded-lg border card-warn transition-colors";
                 badge.innerText = "ALERTA";
                 badge.className = "px-2 py-0.5 rounded text-[10px] font-bold badge-warn";
-                return 0.5; // Advertencia leve
+                return 0.5;
             } else {
-                // Rojo - Crítico
                 card.className = "bg-slate-900/60 p-3.5 rounded-lg border card-alert transition-colors";
                 badge.innerText = "DESVÍO";
                 badge.className = "px-2 py-0.5 rounded text-[10px] font-bold badge-alert";
-                return 1; // Desvío crítico
+                return 1;
             }
         }
 
@@ -409,7 +455,6 @@
             const f = document.getElementById('granulometriaSelect').value;
             const p = parametros[f];
 
-            // Lectura de inputs
             const hAcopio = parseFloat(document.getElementById('inputHumedadAcopio').value);
             const hIngreso = parseFloat(document.getElementById('inputHumedadIngreso').value);
             const tIngreso = parseFloat(document.getElementById('inputTempIngreso').value);
@@ -423,7 +468,6 @@
             const amp = parseFloat(document.getElementById('inputAmplitud').value);
             const rpmZaranda = parseFloat(document.getElementById('inputRpmZaranda').value);
 
-            // Reflejar valores numéricos
             document.getElementById('valHumedadAcopio').innerText = hAcopio.toFixed(2);
             document.getElementById('valHumedadIngreso').innerText = hIngreso.toFixed(2);
             document.getElementById('valTempIngreso').innerText = tIngreso;
@@ -437,87 +481,59 @@
             document.getElementById('valAmplitud').innerText = amp.toFixed(1);
             document.getElementById('valRpmZaranda').innerText = rpmZaranda;
 
-            // Ratios calculados
             const evaporacion = (hIngreso - hSalida);
             document.getElementById('metricEvaporacion').innerText = `${evaporacion.toFixed(2)} %`;
-            
-            const ratioAireLlama = (flujoAire / intLlama).toFixed(1);
-            document.getElementById('metricAireLlama').innerText = ratioAireLlama;
 
             let desviosCriticos = 0;
             let advertencias = 0;
             let instruccion = [];
 
-            // EVALUACIÓN SEMAFÓRICA VARIABLE POR VARIABLE
-            // 1. Humedad Acopio (3.0 - 9.0 Ok | >11.0 Rojo)
-            let res = evaluarVariable('HumedadAcopio', hAcopio, 3.0, 9.0, 2.0, 11.0);
-            if (res === 1) { desviosCriticos++; instruccion.push(`🔴 <strong>Stock Muy Húmedo (${hAcopio}%):</strong> Requiere drenaje o mezclar con acopio seco.`); }
-            else if (res === 0.5) { advertencias++; instruccion.push(`🟡 <strong>Stock Húmedo:</strong> Prever mayor consumo de gas.`); }
+            // Evaluaciones semafóricas
+            evaluarVariable('HumedadAcopio', hAcopio, 3.0, 9.0, 2.0, 11.0);
+            
+            let res = evaluarVariable('HumedadIngreso', hIngreso, 3.0, 8.0, 2.0, 10.0);
+            if (res === 1) { desviosCriticos++; instruccion.push(`🔴 <strong>Humedad Entrada Alta (${hIngreso}%):</strong> Bajar cinta alimentadora.`); }
 
-            // 2. Humedad Ingreso (3.0 - 8.0 Ok)
-            res = evaluarVariable('HumedadIngreso', hIngreso, 3.0, 8.0, 2.0, 10.0);
-            if (res === 1) { desviosCriticos++; instruccion.push(`🔴 <strong>Carga Excesiva de Agua (${hIngreso}%):</strong> Bajar velocidad de cinta alimentadora.`); }
+            evaluarVariable('TempIngreso', tIngreso, 10, 35, 5, 40);
+            evaluarVariable('RpmCinta', rpmCinta, 25, 65, 15, 80);
 
-            // 3. Temp Ingreso (10 - 35 °C)
-            res = evaluarVariable('TempIngreso', tIngreso, 10, 35, 5, 40);
-
-            // 4. RPM Cinta Alimentación (25 - 65 RPM)
-            res = evaluarVariable('RpmCinta', rpmCinta, 25, 65, 15, 80);
-            if (res === 1) { desviosCriticos++; instruccion.push(`🔴 <strong>Alimentación Desproporcionada:</strong> Ajustar RPM de cinta.`); }
-
-            // 5. RPM Horno (Específico por Malla)
             res = evaluarVariable('RpmHorno', rpmHorno, p.rpmHMin, p.rpmHMax, p.rpmHMin - 0.5, p.rpmHMax + 1.0);
-            if (res === 1) { desviosCriticos++; instruccion.push(`🔴 <strong>Velocidad Horno Fuera de Malla:</strong> Material pasa muy rápido o muy lento.`); }
+            if (res === 1) desviosCriticos++;
 
-            // 6. Temp Gases / Quemador (Específico por Malla)
             res = evaluarVariable('TempGases', tGases, p.tGasesMin, p.tGasesMax, p.tGasesMin - 50, p.tGasesMax + 50);
-            if (res === 1) { desviosCriticos++; instruccion.push(`🔴 <strong>Temperatura de Combustión Inadecuada:</strong> Regular válvula de gas/aire.`); }
+            if (res === 1) desviosCriticos++;
 
-            // 7. Intensidad Llama (40% - 85%)
-            res = evaluarVariable('IntensidadLlama', intLlama, 40, 85, 30, 95);
-            if (res === 1 && intLlama > 85 && hIngreso < 5.0) {
-                desviosCriticos++;
-                instruccion.push(`🔴 <strong>Riesgo de Sobre-secado / Despilfarro:</strong> Potencia de llama alta para material de baja humedad.`);
-            }
+            evaluarVariable('IntensidadLlama', intLlama, 40, 85, 30, 95);
 
-            // 8. Tiro de Aire Circulante (3000 - 5500 m3/h)
-            res = evaluarVariable('FlujoAire', flujoAire, 3000, 5500, 2200, 6500);
             if (flujoAire < 3000) {
-                instruccion.push(`🔴 <strong>Poco Tiro de Aire (${flujoAire} m³/h):</strong> Saturación de vapor en tambor. Riesgo de condensación.`);
+                instruccion.push(`🔴 <strong>Bajo Tiro de Aire (${flujoAire} m³/h):</strong> Riesgo de condensación interna.`);
                 desviosCriticos++;
-            } else if (flujoAire > 5500) {
-                instruccion.push(`🟡 <strong>Exceso de Tiro:</strong> Arrastre de finos hacia ciclón / pérdida térmica por chimenea.`);
-                advertencias++;
             }
+            evaluarVariable('FlujoAire', flujoAire, 3000, 5500, 2200, 6500);
 
-            // 9. Temp Material Salida (Específico por Malla)
             res = evaluarVariable('TempSalida', tSalida, p.tMin, p.tMax, p.tMin - 10, p.tMax + 15);
             if (tSalida < p.tMin) {
                 desviosCriticos++;
-                instruccion.push(`🔴 <strong>Material Frío (${tSalida}°C):</strong> Peligro de mala evaporación / infra-secado.`);
+                instruccion.push(`🔴 <strong>Material Frío (${tSalida}°C):</strong> Peligro de infra-secado.`);
             } else if (tSalida > p.tMax) {
                 desviosCriticos++;
-                instruccion.push(`🔴 <strong>Sobre-calcinación (${tSalida}°C):</strong> Despilfarro energético innecesario.`);
+                instruccion.push(`🔴 <strong>Sobre-calcinación (${tSalida}°C):</strong> Perdiéndose gas en exceso.`);
             }
 
-            // 10. Humedad Seca Salida (Específico por Malla - CRÍTICO)
             res = evaluarVariable('HumedadSalida', hSalida, 0.01, p.hMax, 0.0, p.hMax + 0.05);
             if (hSalida > p.hMax) {
                 desviosCriticos++;
-                instruccion.push(`🔴 <strong>DESVÍO CRÍTICO - HUMEDAD FINAL (${hSalida}%):</strong> Provocará ciego y apelmazamiento inmediato en zaranda.`);
+                instruccion.push(`🔴 <strong>DESVÍO HUMEDAD SALIDA (${hSalida}%):</strong> Provocará ciego en zaranda.`);
             }
 
-            // 11. Amplitud Zaranda (Específico por Malla)
             res = evaluarVariable('Amplitud', amp, p.ampMin, p.ampMax, p.ampMin - 0.5, p.ampMax + 0.8);
             if (amp < p.ampMin) {
                 desviosCriticos++;
-                instruccion.push(`🔴 <strong>Amplitud Insuficiente (${amp} mm):</strong> Falta de estratificación en mallas. Zaranda colmatada.`);
+                instruccion.push(`🔴 <strong>Amplitud Zaranda Baja (${amp} mm):</strong> Ajustar contrapesos.`);
             }
 
-            // 12. RPM Zaranda (Específico por Malla)
-            res = evaluarVariable('RpmZaranda', rpmZaranda, p.rpmZMin, p.rpmZMax, p.rpmZMin - 100, p.rpmZMax + 200);
+            evaluarVariable('RpmZaranda', rpmZaranda, p.rpmZMin, p.rpmZMax, p.rpmZMin - 100, p.rpmZMax + 200);
 
-            // EVALUACIÓN GENERAL DE DIAGNÓSTICO
             const globalCard = document.getElementById('statusGlobalCard');
             const globalText = document.getElementById('statusGlobalText');
             const globalSub = document.getElementById('statusGlobalSub');
@@ -526,22 +542,17 @@
             if (desviosCriticos === 0 && advertencias === 0) {
                 globalCard.className = "p-4 rounded-lg bg-emerald-950 border border-emerald-600 text-emerald-200 transition-colors";
                 globalText.innerText = "PROCESO EN PARÁMETROS ÓPTIMOS";
-                globalSub.innerText = "Transferencia térmica y mecánica en punto de eficiencia.";
-                contLista.innerHTML = `<li class="flex items-start gap-2"><span class="text-emerald-400">✓</span><span>Todas las variables están verdes. Sin pérdidas energéticas ni riesgo de apelmazamiento.</span></li>`;
-            } else if (desviosCriticos === 0 && advertencias > 0) {
-                globalCard.className = "p-4 rounded-lg bg-amber-950 border border-amber-600 text-amber-200 transition-colors";
-                globalText.innerText = `ADVERTENCIAS ACTIVAS (${advertencias})`;
-                globalSub.innerText = "Variables cerca del límite. Ajustar para evitar desvíos.";
-                contLista.innerHTML = instruccion.map(i => `<li class="text-xs leading-relaxed bg-slate-900/60 p-2 rounded border border-slate-700">${i}</li>`).join('');
+                globalSub.innerText = "Punto de máxima eficiencia energética.";
+                contLista.innerHTML = `<li class="flex items-start gap-2"><span class="text-emerald-400">✓</span><span>Todas las variables están en rango seguro.</span></li>`;
             } else {
                 globalCard.className = "p-4 rounded-lg bg-rose-950 border border-rose-600 text-rose-200 transition-colors";
-                globalText.innerText = `DESVÍOS CRÍTICOS (${desviosCriticos})`;
-                globalSub.innerText = "Corregir parámetros marcados en ROJO para asegurar calidad.";
+                globalText.innerText = `DESVÍOS ACTIVOS (${desviosCriticos})`;
+                globalSub.innerText = "Aplicar ajustes en perillas marcadas en rojo.";
                 contLista.innerHTML = instruccion.map(i => `<li class="text-xs leading-relaxed bg-slate-900/60 p-2 rounded border border-slate-700">${i}</li>`).join('');
             }
         }
 
-        // --- HISTÓRICO Y LOCALSTORAGE ---
+        // --- MICROSITIO 1: TELEMETRÍA DE PROCESO ---
 
         function guardarLecturaManual() {
             guardarSnapshot("Manual");
@@ -555,7 +566,6 @@
             const flujoAire = parseFloat(document.getElementById('inputFlujoAire').value);
             const tGases = parseFloat(document.getElementById('inputTempGases').value);
             const tSalida = parseFloat(document.getElementById('inputTempSalida').value);
-            const amp = parseFloat(document.getElementById('inputAmplitud').value);
             const estadoText = document.getElementById('statusGlobalText').innerText;
 
             const registro = {
@@ -568,25 +578,23 @@
                 flujoAire: flujoAire,
                 tGases: tGases,
                 tSalida: tSalida,
-                ampZaranda: amp.toFixed(1),
                 estado: estadoText,
                 captura: tipoCaptura
             };
 
-            dbHistorico.unshift(registro);
-            localStorage.setItem('db_secado_tamizado', JSON.stringify(dbHistorico));
-            renderizarTablaHistorico();
+            dbTelemetria.unshift(registro);
+            localStorage.setItem('db_secado_telemetria', JSON.stringify(dbTelemetria));
+            renderizarTablaTelemetria();
         }
 
-        function renderizarTablaHistorico() {
+        function renderizarTablaTelemetria() {
             const tbody = document.getElementById('tablaHistoricoBody');
-
-            if (dbHistorico.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="p-3 text-center text-slate-500">No hay lecturas registradas.</td></tr>`;
+            if (dbTelemetria.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="p-3 text-center text-slate-500">Sin lecturas registradas.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = dbHistorico.map(r => `
+            tbody.innerHTML = dbTelemetria.map(r => `
                 <td class="p-2 text-slate-400">${r.fechaHora}</td>
                 <td class="p-2 font-bold text-sky-400">${r.malla}</td>
                 <td class="p-2">${r.hIngreso}%</td>
@@ -595,7 +603,6 @@
                 <td class="p-2">${r.flujoAire} m³/h</td>
                 <td class="p-2">${r.tGases}°C</td>
                 <td class="p-2">${r.tSalida}°C</td>
-                <td class="p-2">${r.ampZaranda} mm</td>
                 <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${r.estado.includes('ÓPTIMOS') ? 'bg-emerald-900 text-emerald-200' : 'bg-rose-900 text-rose-200'}">${r.estado}</span></td>
             `).map(row => `<tr class="hover:bg-slate-800/60">${row}</tr>`).join('');
         }
@@ -605,66 +612,120 @@
             const minutos = parseInt(document.getElementById('intervaloAuto').value);
             
             if (minutos > 0) {
-                const milisegundos = minutos * 60 * 1000;
                 timerAutoSave = setInterval(() => {
                     guardarSnapshot("Programado");
-                }, milisegundos);
+                }, minutos * 60 * 1000);
             }
         }
 
-        function exportarExcelCSV() {
-            if (dbHistorico.length === 0) {
-                alert("La base de datos está vacía. Registre al menos una lectura.");
+        function exportarExcelTelemetria() {
+            if (dbTelemetria.length === 0) {
+                alert("Base de telemetría vacía.");
                 return;
             }
 
-            const headers = [
-                "ID Registro", "Fecha y Hora", "Malla / Fraccion", "Humedad Ingreso (%)",
-                "Humedad Salida (%)", "Intensidad Llama (%)", "Tiro Aire (m3/h)",
-                "Temp Gases (C)", "Temp Material Salida (C)", "Amplitud Zaranda (mm)",
-                "Estado Proceso", "Tipo Captura"
-            ];
-
-            const filasCSV = dbHistorico.map(r => [
-                r.id,
-                `"${r.fechaHora}"`,
-                `"${r.malla}"`,
-                r.hIngreso,
-                r.hSalida,
-                r.intLlama,
-                r.flujoAire,
-                r.tGases,
-                r.tSalida,
-                r.ampZaranda,
-                `"${r.estado}"`,
-                `"${r.captura}"`
-            ].join(";"));
-
-            const contenidoCSV = "\uFEFF" + [headers.join(";"), ...filasCSV].join("\n");
+            const headers = ["ID", "Fecha y Hora", "Malla", "Humedad Entrada (%)", "Humedad Salida (%)", "Llama (%)", "Tiro Aire (m3/h)", "Temp Gases (C)", "Temp Salida (C)", "Estado", "Captura"];
+            const filas = dbTelemetria.map(r => [r.id, `"${r.fechaHora}"`, `"${r.malla}"`, r.hIngreso, r.hSalida, r.intLlama, r.flujoAire, r.tGases, r.tSalida, `"${r.estado}"`, `"${r.captura}"`].join(";"));
             
-            const blob = new Blob([contenidoCSV], { type: 'text/csv;charset=utf-8;' });
+            descargarCSV([headers.join(";"), ...filas].join("\n"), "Telemetria_Secado_Tamizado");
+        }
+
+        // --- MICROSITIO 2: REGISTRO DE PARADAS E INEFINCIENCIAS ---
+
+        function registrarParada() {
+            const inicio = document.getElementById('paradaInicio').value;
+            const duracion = parseInt(document.getElementById('paradaDuracion').value);
+            const causa = document.getElementById('paradaCausa').value;
+            const accion = document.getElementById('paradaAccion').value;
+
+            if (!inicio || isNaN(duracion) || duracion <= 0) {
+                alert("Por favor complete la fecha/hora de inicio y la duración en minutos de la parada.");
+                return;
+            }
+
+            const fechaFormat = new Date(inicio).toLocaleString('es-AR');
+
+            const parada = {
+                id: Date.now(),
+                inicio: fechaFormat,
+                duracionMin: duracion,
+                causa: causa,
+                accion: accion || "Sin especificación"
+            };
+
+            dbParadas.unshift(parada);
+            localStorage.setItem('db_secado_paradas', JSON.stringify(dbParadas));
+
+            document.getElementById('paradaDuracion').value = '';
+            document.getElementById('paradaAccion').value = '';
+
+            renderizarTablaParadas();
+        }
+
+        function eliminarParada(id) {
+            dbParadas = dbParadas.filter(p => p.id !== id);
+            localStorage.setItem('db_secado_paradas', JSON.stringify(dbParadas));
+            renderizarTablaParadas();
+        }
+
+        function renderizarTablaParadas() {
+            const tbody = document.getElementById('tablaParadasBody');
+            
+            // Sumar horas perdidas
+            const totalMinutos = dbParadas.reduce((acc, p) => acc + p.duracionMin, 0);
+            const totalHoras = (totalMinutos / 60).toFixed(1);
+            document.getElementById('metricHorasParada').innerText = `${totalHoras} hs`;
+
+            if (dbParadas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-500">No hay paradas registradas hoy.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = dbParadas.map(p => `
+                <td class="p-2 text-slate-400">${p.inicio}</td>
+                <td class="p-2 font-bold text-amber-400">${p.duracionMin} min</td>
+                <td class="p-2 text-rose-300 font-semibold">${p.causa}</td>
+                <td class="p-2 text-slate-300">${p.accion}</td>
+                <td class="p-2"><button onclick="eliminarParada(${p.id})" class="text-rose-400 hover:text-rose-300">🗑️</button></td>
+            `).map(row => `<tr class="hover:bg-slate-800/60">${row}</tr>`).join('');
+        }
+
+        function exportarExcelParadas() {
+            if (dbParadas.length === 0) {
+                alert("Base de paradas vacía.");
+                return;
+            }
+
+            const headers = ["ID Parada", "Fecha y Hora Inicio", "Duracion (Minutos)", "Duracion (Horas)", "Causa Raiz / Motivo", "Accion de Reanudacion / Solucion"];
+            const filas = dbParadas.map(p => [p.id, `"${p.inicio}"`, p.duracionMin, (p.duracionMin/60).toFixed(2), `"${p.causa}"`, `"${p.accion}"`].join(";"));
+            
+            descargarCSV([headers.join(";"), ...filas].join("\n"), "Reporte_Paradas_Planta");
+        }
+
+        // Función auxiliar para descargar CSV con compatibilidad de acentos para Excel
+        function descargarCSV(contenido, nombreArchivo) {
+            const contenidoUTF8 = "\uFEFF" + contenido;
+            const blob = new Blob([contenidoUTF8], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
-            
             const fechaActual = new Date().toISOString().slice(0,10);
+            
             link.setAttribute("href", url);
-            link.setAttribute("download", `BaseDatos_Secado_Tamizado_${fechaActual}.csv`);
+            link.setAttribute("download", `${nombreArchivo}_${fechaActual}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
-        function limpiarBaseDatos() {
-            if (confirm("¿Desea borrar el historial registrado?")) {
-                dbHistorico = [];
-                localStorage.removeItem('db_secado_tamizado');
-                renderizarTablaHistorico();
-            }
-        }
+        // Configuración por defecto de input datetime a la hora actual
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('paradaInicio').value = now.toISOString().slice(0,16);
 
         // Inicialización
         actualizarValoresFormulario();
-        renderizarTablaHistorico();
+        renderizarTablaTelemetria();
+        renderizarTablaParadas();
         configurarTimerAuto();
     </script>
 </body>
