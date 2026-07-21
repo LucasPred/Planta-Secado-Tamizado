@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Operaciones: Secado y Tamizado Industrial</title>
+    <!-- Tailwind CSS CDN para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .status-card { transition: all 0.3s ease; }
+        .bg-ok { background-color: #10B981; color: white; }
+        .bg-warn { background-color: #F59E0B; color: white; }
+        .bg-alert { background-color: #EF4444; color: white; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-4 md:p-8">
+
+    <!-- Encabezado -->
+    <header class="mb-8 border-b border-slate-700 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-sky-400">Planta de Secado y Clasificación Granulométrica</h1>
+            <p class="text-slate-400 text-sm">Monitoreo, Parametrización en Tiempo Real y Corrección Operativa</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <label for="granulometriaSelect" class="text-sm font-semibold text-slate-300">Fracción activa:</label>
+            <select id="granulometriaSelect" onchange="cambiarFraccion()" class="bg-slate-800 border border-slate-600 text-sky-300 rounded-lg p-2 font-bold focus:outline-none focus:ring-2 focus:ring-sky-500">
+                <option value="200-300">Malla 200 - 300 Mesh</option>
+                <option value="14-200">Malla 14 - 200 (Arenados)</option>
+                <option value="0.6">Fracción 0.6 mm</option>
+                <option value="0.8">Fracción 0.8 mm</option>
+                <option value="0.9" selected>Fracción 0.9 mm</option>
+                <option value="1-2">Fracción 1 - 2 mm</option>
+                <option value="1-3">Fracción 1 - 3 mm</option>
+                <option value="2-3">Fracción 2 - 3 mm</option>
+                <option value="2-4">Fracción 2 - 4 mm</option>
+                <option value="3-6">Fracción 3 - 6 mm</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal Grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Columna 1 & 2: Variables del Proceso -->
+        <section class="lg:col-span-2 space-y-6">
+            <h2 class="text-xl font-semibold text-slate-200 flex items-center gap-2">
+                <span class="inline-block w-3 h-3 rounded-full bg-sky-500"></span>
+                Comando y Medición de Variables
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Variable 1: Humedad de Salida -->
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-slate-400">Humedad Salida Horno</span>
+                        <span id="badgeHumedad" class="px-2.5 py-1 rounded-full text-xs font-bold bg-ok">ÓPTIMO</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 my-2">
+                        <span id="valHumedad" class="text-3xl font-extrabold text-white">0.08</span>
+                        <span class="text-slate-400 text-sm">% H₂O</span>
+                    </div>
+                    <input type="range" id="inputHumedad" min="0.01" max="0.50" step="0.01" value="0.08" oninput="evaluarProceso()" class="w-full accent-sky-500 cursor-pointer">
+                    <p class="text-xs text-slate-400 mt-2">Especificación: <strong class="text-slate-200">&lt; 0.10%</strong></p>
+                </div>
+
+                <!-- Variable 2: Temp. Salida Material -->
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-slate-400">Temp. Salida Material</span>
+                        <span id="badgeTempMat" class="px-2.5 py-1 rounded-full text-xs font-bold bg-ok">ÓPTIMO</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 my-2">
+                        <span id="valTempMat" class="text-3xl font-extrabold text-white">75</span>
+                        <span class="text-slate-400 text-sm">°C</span>
+                    </div>
+                    <input type="range" id="inputTempMat" min="30" max="120" step="1" value="75" oninput="evaluarProceso()" class="w-full accent-sky-500 cursor-pointer">
+                    <p class="text-xs text-slate-400 mt-2">Rango objetivo: <span id="targetTempMat" class="text-slate-200">70 - 85 °C</span></p>
+                </div>
+
+                <!-- Variable 3: Amplitud de Zaranda -->
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-slate-400">Amplitud Vibración ($S_{p-p}$)</span>
+                        <span id="badgeAmplitud" class="px-2.5 py-1 rounded-full text-xs font-bold bg-ok">ÓPTIMO</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 my-2">
+                        <span id="valAmplitud" class="text-3xl font-extrabold text-white">3.6</span>
+                        <span class="text-slate-400 text-sm">mm</span>
+                    </div>
+                    <input type="range" id="inputAmplitud" min="1.0" max="10.0" step="0.1" value="3.6" oninput="evaluarProceso()" class="w-full accent-sky-500 cursor-pointer">
+                    <p class="text-xs text-slate-400 mt-2">Rango objetivo: <span id="targetAmplitud" class="text-slate-200">3.2 - 4.0 mm</span></p>
+                </div>
+
+                <!-- Variable 4: RPM Zaranda -->
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-slate-400">Frecuencia Zaranda</span>
+                        <span id="badgeRPM" class="px-2.5 py-1 rounded-full text-xs font-bold bg-ok">ÓPTIMO</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 my-2">
+                        <span id="valRPM" class="text-3xl font-extrabold text-white">1350</span>
+                        <span class="text-slate-400 text-sm">RPM</span>
+                    </div>
+                    <input type="range" id="inputRPM" min="600" max="3200" step="10" value="1350" oninput="evaluarProceso()" class="w-full accent-sky-500 cursor-pointer">
+                    <p class="text-xs text-slate-400 mt-2">Rango objetivo: <span id="targetRPM" class="text-slate-200">1200 - 1500 RPM</span></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Columna 3: Diagnóstico y Recomendaciones en Tiempo Real -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-slate-200 flex items-center gap-2">
+                <span class="inline-block w-3 h-3 rounded-full bg-emerald-500"></span>
+                Asistente Tecnológico de Planta
+            </h2>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-xl space-y-4">
+                <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase">Estado Global del Sistema</h3>
+                <div id="statusGlobalCard" class="p-4 rounded-lg bg-emerald-950 border border-emerald-600 text-emerald-200">
+                    <p id="statusGlobalText" class="font-bold text-lg">PROCESO EN PARÁMETROS</p>
+                    <p class="text-xs mt-1 text-emerald-300/80">Eficiencia térmica y mecánica optimizadas.</p>
+                </div>
+
+                <hr class="border-slate-700">
+
+                <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase">Acciones Correctivas Sugeridas</h3>
+                <ul id="listaRecomendaciones" class="space-y-3 text-sm text-slate-300">
+                    <li class="flex items-start gap-2">
+                        <span class="text-emerald-400">✓</span>
+                        <span>Todas las variables están dentro del marco normativo de operación.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Parámetros por granulometría
+        const parametros = {
+            "200-300": { hMax: 0.05, tMin: 105, tMax: 115, ampMin: 1.2, ampMax: 2.0, rpmMin: 1500, rpmMax: 3000 },
+            "14-200":  { hMax: 0.10, tMin: 80,  tMax: 95,  ampMin: 2.5, ampMax: 3.5, rpmMin: 1200, rpmMax: 1500 },
+            "0.6":     { hMax: 0.10, tMin: 75,  tMax: 90,  ampMin: 2.5, ampMax: 3.2, rpmMin: 1200, rpmMax: 1500 },
+            "0.8":     { hMax: 0.10, tMin: 70,  tMax: 85,  ampMin: 3.0, ampMax: 3.8, rpmMin: 1200, rpmMax: 1500 },
+            "0.9":     { hMax: 0.10, tMin: 70,  tMax: 85,  ampMin: 3.2, ampMax: 4.0, rpmMin: 1200, rpmMax: 1500 },
+            "1-2":     { hMax: 0.15, tMin: 65,  tMax: 80,  ampMin: 4.0, ampMax: 5.5, rpmMin: 1000, rpmMax: 1200 },
+            "1-3":     { hMax: 0.15, tMin: 65,  tMax: 80,  ampMin: 4.5, ampMax: 6.0, rpmMin: 1000, rpmMax: 1200 },
+            "2-3":     { hMax: 0.20, tMin: 60,  tMax: 75,  ampMin: 5.0, ampMax: 6.5, rpmMin: 900,  rpmMax: 1200 },
+            "2-4":     { hMax: 0.20, tMin: 60,  tMax: 75,  ampMin: 6.0, ampMax: 7.5, rpmMin: 900,  rpmMax: 1000 },
+            "3-6":     { hMax: 0.20, tMin: 55,  tMax: 70,  ampMin: 7.0, ampMax: 9.0, rpmMin: 800,  rpmMax: 1000 }
+        };
+
+        function cambiarFraccion() {
+            const f = document.getElementById('granulometriaSelect').value;
+            const p = parametros[f];
+            
+            document.getElementById('targetTempMat').innerText = `${p.tMin} - ${p.tMax} °C`;
+            document.getElementById('targetAmplitud').innerText = `${p.ampMin} - ${p.ampMax} mm`;
+            document.getElementById('targetRPM').innerText = `${p.rpmMin} - ${p.rpmMax} RPM`;
+            
+            // Setear valores sugeridos
+            document.getElementById('inputHumedad').value = (p.hMax * 0.8).toFixed(2);
+            document.getElementById('inputTempMat').value = Math.round((p.tMin + p.tMax)/2);
+            document.getElementById('inputAmplitud').value = ((p.ampMin + p.ampMax)/2).toFixed(1);
+            document.getElementById('inputRPM').value = Math.round((p.rpmMin + p.rpmMax)/2);
+
+            evaluarProceso();
+        }
+
+        function evaluarProceso() {
+            const f = document.getElementById('granulometriaSelect').value;
+            const p = parametros[f];
+
+            const hum = parseFloat(document.getElementById('inputHumedad').value);
+            const temp = parseFloat(document.getElementById('inputTempMat').value);
+            const amp = parseFloat(document.getElementById('inputAmplitud').value);
+            const rpm = parseFloat(document.getElementById('inputRPM').value);
+
+            document.getElementById('valHumedad').innerText = hum.toFixed(2);
+            document.getElementById('valTempMat').innerText = temp;
+            document.getElementById('valAmplitud').innerText = amp.toFixed(1);
+            document.getElementById('valRPM').innerText = rpm;
+
+            let alertas = [];
+            let desviosTotales = 0;
+
+            // 1. Evaluar Humedad
+            if (hum > p.hMax) {
+                setBadge('badgeHumedad', 'CRÍTICO', 'bg-alert');
+                alertas.push(`🔴 <strong>Humedad alta (${hum}%):</strong> Riesgo de cegado (*blinding*) de malla. Incrementar flujo de aire/llama en quemador o reducir RPM de alimentación del horno.`);
+                desviosTotales++;
+            } else {
+                setBadge('badgeHumedad', 'ÓPTIMO', 'bg-ok');
+            }
+
+            // 2. Evaluar Temperatura
+            if (temp > p.tMax) {
+                setBadge('badgeTempMat', 'EXCESO', 'bg-warn');
+                alertas.push(`🟡 <strong>Temperatura elevada (${temp}°C):</strong> Sobreseco ineficiente. Reducir potencia de quemador para evitar degradación de mallas.`);
+                desviosTotales++;
+            } else if (temp < p.tMin) {
+                setBadge('badgeTempMat', 'BAJA', 'bg-warn');
+                alertas.push(`🟡 <strong>Temperatura baja (${temp}°C):</strong> Posible condensación. Elevar temperatura del horno.`);
+                desviosTotales++;
+            } else {
+                setBadge('badgeTempMat', 'ÓPTIMO', 'bg-ok');
+            }
+
+            // 3. Evaluar Amplitud
+            if (amp < p.ampMin) {
+                setBadge('badgeAmplitud', 'BAJA', 'bg-warn');
+                alertas.push(`🟡 <strong>Carrera baja (${amp} mm):</strong> Ajustar contrapesos (% masa excéntrica). Riesgo de colmatación sobre la malla.`);
+                desviosTotales++;
+            } else if (amp > p.ampMax) {
+                setBadge('badgeAmplitud', 'ALTA', 'bg-warn');
+                alertas.push(`🟡 <strong>Carrera alta (${amp} mm):</strong> Reducir contrapeso para evitar suspensión excesiva del fino.`);
+                desviosTotales++;
+            } else {
+                setBadge('badgeAmplitud', 'ÓPTIMO', 'bg-ok');
+            }
+
+            // 4. Evaluar RPM Zaranda
+            if (rpm < p.rpmMin || rpm > p.rpmMax) {
+                setBadge('badgeRPM', 'DESVÍO', 'bg-alert');
+                alertas.push(`🔴 <strong>Frecuencia fuera de rango (${rpm} RPM):</strong> Ajustar variador de frecuencia del motovibrador a rango target (${p.rpmMin}-${p.rpmMax} RPM).`);
+                desviosTotales++;
+            } else {
+                setBadge('badgeRPM', 'ÓPTIMO', 'bg-ok');
+            }
+
+            // Renderizar Recomendaciones
+            const contAlertas = document.getElementById('listaRecomendaciones');
+            const globalCard = document.getElementById('statusGlobalCard');
+            const globalText = document.getElementById('statusGlobalText');
+
+            if (desviosTotales === 0) {
+                globalCard.className = "p-4 rounded-lg bg-emerald-950 border border-emerald-600 text-emerald-200";
+                globalText.innerText = "PROCESO EN PARÁMETROS";
+                contAlertas.innerHTML = `<li class="flex items-start gap-2"><span class="text-emerald-400">✓</span><span>Todas las variables cumplen el estándar operativo.</span></li>`;
+            } else {
+                globalCard.className = "p-4 rounded-lg bg-rose-950 border border-rose-600 text-rose-200";
+                globalText.innerText = `DESVÍOS DETECTADOS (${desviosTotales})`;
+                contAlertas.innerHTML = alertas.map(a => `<li class="text-xs leading-relaxed bg-slate-900/50 p-2 rounded border border-slate-700">${a}</li>`).join('');
+            }
+        }
+
+        function setBadge(id, texto, clase) {
+            const el = document.getElementById(id);
+            el.innerText = texto;
+            el.className = `px-2.5 py-1 rounded-full text-xs font-bold ${clase}`;
+        }
+
+        // Inicializar
+        cambiarFraccion();
+    </script>
+</body>
+</html>
